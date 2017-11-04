@@ -14,6 +14,7 @@
 */
 #include<iostream>
 #include<ctime>
+#include<cstdlib>
 using namespace std;
 int count = 0;
 int Max = 0;
@@ -87,12 +88,18 @@ int dp(int**c,int n,int m,int i){
 	int j,result = 0;
 	for(j=0;j<m;j++){
 		//A放i
-		result = max(result, c[i][j]+dp(c,n,m,i+1));	 
+//		result = max(result, c[i][j]+dp(c,n,m,i+1));
+		int temp ;
+		temp = c[i][j]+dp(c,n,m,i+1);
+		if(temp>result){
+			result = temp;
+		}	 
 	}
 	return result;
 } 
 int main()
 {
+	
 	time_t c_start,c_end;
 	int i,j;
 	int n,m;
@@ -104,7 +111,7 @@ int main()
 	//input c array
 	for(i=0;i<n;i++){
 		for(j=0;j<m;j++){
-			cin>>c[i][j];
+			c[i][j] = rand();
 		}
 	}
 	//new a temp array
@@ -125,9 +132,9 @@ int main()
 		c_end = clock();
 		//结束计时
 		float time = difftime(c_end, c_start);
-	cout << "蛮力法耗时："<<time << "ms ";
-	cout<<"遍历次数："<<count<<endl;
+	cout << "蛮力法耗时："<<time << "ms "<<endl;
 	cout<<"最大价值为："<<Max<<endl;
+		cout<<"遍历次数："<<count<<endl;
 	cout<<"***********************************************************"<<endl;
 	count = 0;
 	cout<<"dp递归实现："<<endl;
@@ -138,8 +145,8 @@ int main()
 		c_end = clock();
 		//结束计时
 		time = difftime(c_end, c_start);
-	cout << "dp递归耗时："<<time << "ms ";
-	cout<<"dp:"<<result<<endl;
+	cout << "dp递归耗时："<<time << "ms "<<endl;
+	cout<<"dp最大价值为:"<<result<<endl;
 	cout<<"遍历次数："<<count<<endl;
 	return 0;
 }
