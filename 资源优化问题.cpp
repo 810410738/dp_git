@@ -97,6 +97,18 @@ int dp(int**c,int n,int m,int i){
 	}
 	return result;
 } 
+dp_bottom_up(int**c,int n, int m){
+	int *r = new int[n+1];
+	r[0] = 0;
+	int i,j,result = 0;
+	for(i=1;i<=n;i++){
+		for(j=0;j<m;j++){
+			result = max(result,c[i-1][j]+r[i-1]);
+		}
+		r[i] = result;
+	}
+	return r[n];
+}
 int main()
 {
 	
@@ -112,6 +124,7 @@ int main()
 	for(i=0;i<n;i++){
 		for(j=0;j<m;j++){
 			c[i][j] = rand();
+//			cin>>c[i][j]; 
 		}
 	}
 	//new a temp array
@@ -124,6 +137,19 @@ int main()
 			temp[i][j] = 0;
 		}
 	}
+	int result;
+	float time;
+	cout<<"***********************************************************"<<endl;
+	cout<<"dp自底向上："<<endl;
+	//开始计时
+		c_start = clock();
+		result = dp_bottom_up(c,n,m);
+		c_end = clock();
+		//结束计时
+		time = difftime(c_end, c_start);
+	cout << "dp自底向上耗时："<<time << "ms "<<endl;
+	cout<<"dp自底向上最大价值为:"<<result<<endl;
+	cout<<"***********************************************************"<<endl;
 	//violence(c,temp,n,m,0);
 	cout<<"蛮力法："<<endl;
 		//开始计时
@@ -131,14 +157,14 @@ int main()
 		violence2(c,n,m,0);	
 		c_end = clock();
 		//结束计时
-		float time = difftime(c_end, c_start);
+		time = difftime(c_end, c_start);
 	cout << "蛮力法耗时："<<time << "ms "<<endl;
 	cout<<"最大价值为："<<Max<<endl;
 		cout<<"遍历次数："<<count<<endl;
 	cout<<"***********************************************************"<<endl;
+	
 	count = 0;
 	cout<<"dp递归实现："<<endl;
-	int result ;
 		//开始计时
 		c_start = clock();
 		result = dp(c,n,m,0);
@@ -148,5 +174,6 @@ int main()
 	cout << "dp递归耗时："<<time << "ms "<<endl;
 	cout<<"dp最大价值为:"<<result<<endl;
 	cout<<"遍历次数："<<count<<endl;
+	
 	return 0;
 }
