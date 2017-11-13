@@ -103,7 +103,12 @@ dp_bottom_up(int**c,int n, int m){
 	int i,j,result = 0;
 	for(i=1;i<=n;i++){
 		for(j=0;j<m;j++){
-			result = max(result,c[i-1][j]+r[i-1]);
+//			result = max(result,c[i-1][j]+r[i-1]);
+			int temp ;
+			temp = c[i-1][j]+r[i-1];
+			if(temp>result){
+				result = temp;
+		}	 
 		}
 		r[i] = result;
 	}
@@ -111,7 +116,8 @@ dp_bottom_up(int**c,int n, int m){
 }
 int main()
 {
-	
+	int result;
+	float time;
 	time_t c_start,c_end;
 	int i,j;
 	int n,m;
@@ -121,24 +127,28 @@ int main()
 		c[i] = new int[m];
 	}
 	//input c array
-	for(i=0;i<n;i++){
+	//开始计时
+		c_start = clock();
+		for(i=0;i<n;i++){
 		for(j=0;j<m;j++){
 			c[i][j] = rand();
 //			cin>>c[i][j]; 
 		}
 	}
-	//new a temp array
-	int **temp = new int*[n];
-	for(i=0;i<n;i++){
-		temp[i] = new int[m];
-	}
-	for(i=0;i<n;i++){
-		for(j=0;j<m;j++){
-			temp[i][j] = 0;
-		}
-	}
-	int result;
-	float time;
+		c_end = clock();
+		//结束计时
+		time = difftime(c_end, c_start);
+	cout << "生成随机数耗时："<<time << "ms "<<endl;
+//	//new a temp array
+//	int **temp = new int*[n];
+//	for(i=0;i<n;i++){
+//		temp[i] = new int[m];
+//	}
+//	for(i=0;i<n;i++){
+//		for(j=0;j<m;j++){
+//			temp[i][j] = 0;
+//		}
+//	}
 	cout<<"***********************************************************"<<endl;
 	cout<<"dp自底向上："<<endl;
 	//开始计时
@@ -149,6 +159,7 @@ int main()
 		time = difftime(c_end, c_start);
 	cout << "dp自底向上耗时："<<time << "ms "<<endl;
 	cout<<"dp自底向上最大价值为:"<<result<<endl;
+	/*  
 	cout<<"***********************************************************"<<endl;
 	//violence(c,temp,n,m,0);
 	cout<<"蛮力法："<<endl;
@@ -174,6 +185,10 @@ int main()
 	cout << "dp递归耗时："<<time << "ms "<<endl;
 	cout<<"dp最大价值为:"<<result<<endl;
 	cout<<"遍历次数："<<count<<endl;
-	
+	*/ 
+	for(i=0;i<n;i++){
+		delete [] c[i];
+	} 
+	delete [] c;
 	return 0;
 }
