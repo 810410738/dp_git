@@ -17,7 +17,7 @@
 #include<cstdlib>
 using namespace std;
 int count = 0;
-int Max = 0;
+long long Max = 0;
 int result2 = 0;
 void show(int **c,int n, int m){
 	int i,j;
@@ -48,10 +48,10 @@ void violence1(int**c,int * temp,int n, int m,int j,int * Result){
 			return ;
 		}
 		//print
-		for(int k=1;k<=m;k++){
-			cout<<temp[k]<<" ";
-		}
-		cout<<endl;
+//		for(int k=1;k<=m;k++){
+//			cout<<temp[k]<<" ";
+//		}
+//		cout<<endl;
 		result = cal(c,temp,n,m);
 		if(result > Max){
 			for(int k=1;k<=m;k++){
@@ -107,28 +107,30 @@ int dp(int**c,int n,int m,int i){
 } 
 int dp_bottom_up(int**c,int n, int m){
 	int i,j,k,temp;
+	//new f
 	int **f = new int*[n+1];
 	for(i=0;i<=n;i++){
 		f[i] = new int[m+1];
 	}
-	for(j=0;j<m;j++){//车间数 
-		for(i=0;i<n;i++){//设备数
-			if(j == 0){
-				f[i][j] = c[i][j];
-			}
-			else{
-				for(k=0;k<i;k++)
+	//init f = 0
+	for(i=0;i<=n;i++){
+		for(j=0;j<=m;j++){
+			f[i][j] = 0; 
+		}
+	}
+	for(j=1;j<=m;j++){//车间数 
+		for(i=1;i<=n;i++){//设备数
+				for(k=0;k<=i;k++)
 				{	
 					temp = f[k][j-1] + c[i-k][j];
 					if(f[i][j] < temp ){
 						f[i][j] = temp;
 					}
-				} 
-			}	
+				} 	
 		}
 	}
 	 
-	return f[n-1][m-1];
+	return f[n][m];
 }
 int main()
 {
@@ -145,7 +147,7 @@ int main()
 	//input c array
 	//开始计时
 		c_start = clock();
-		for(i=0;i<=n;i++){
+		for(i=0;i<=n;i++){ 
 		for(j=0;j<=m;j++){
 			if(i == 0){
 				c[i][j] = 0;
@@ -159,10 +161,9 @@ int main()
 			if(j == 0){
 				c[i][j] = 0;
 			}
-			cout<<c[i][j]<<" ";
-//			cin>>c[i][j]; 
+//			cout<<c[i][j]<<" ";
 		}
-		cout<<endl;
+//		cout<<endl;
 	}
 	cout<<endl;
 		c_end = clock();
@@ -188,6 +189,7 @@ int main()
 	cout<<"dp自底向上最大价值为:"<<result<<endl;
 	  
 	cout<<"***********************************************************"<<endl;
+	/*
 	cout<<"蛮力法："<<endl;
 		//开始计时
 		c_start = clock();
@@ -204,7 +206,7 @@ int main()
 	cout<<"最大价值为："<<Max<<endl;
 	cout<<"遍历次数："<<count<<endl;
 	cout<<"***********************************************************"<<endl;
-	/*
+	
 	count = 0;
 	cout<<"dp递归实现："<<endl;
 		//开始计时
